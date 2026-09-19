@@ -2,41 +2,70 @@
   "status": "in-progress",
   "title": "P-53 Mutation GA-SOM Analysis",
   "description": "Combines genetic algorithms simulating <inode id=\"mitosis-tree\">mitotic propagation</inode> with self-organizing map clustering to identify <inode id=\"high-risk-pentamers\">six pentamer motifs</inode> that consistently precede malignant P-53 mutations.",
-  "nodes": {
-    "ncbi-strand-curation": {
-      "status": "testing",
-      "title": "NCBI Strand Curation",
-      "description": "25 wild-type and cancerous P-53 DNA strands of 2,509 bases each were pulled from NCBI, stripped of non-nucleotide characters, and aligned into parental/pathological pairs."
+  "branches": [
+    {
+      "label": "Data & Mitosis Simulation",
+      "nodes": [
+        {
+          "id": "ncbi-strand-curation",
+          "title": "NCBI Strand Curation",
+          "status": "testing",
+          "description": "25 wild-type and cancerous P-53 DNA strands of 2,509 bases each were pulled from NCBI, stripped of non-nucleotide characters, and aligned into parental/pathological pairs."
+        },
+        {
+          "id": "mitosis-tree",
+          "title": "Generative Mitosis Tree",
+          "status": "done",
+          "description": "A binary tree models mitotic bifurcation across 14 generations, with each node storing its generation index, DNA composition, and malignancy state to emulate tumour initiation depth.",
+          "path": "clustering.py"
+        }
+      ],
+      "description": "Builds the raw dataset and simulates <inode id=\"mitosis-tree\">generational DNA drift</inode> from healthy to cancerous P-53 sequences."
     },
-    "mitosis-tree": {
-      "status": "done",
-      "title": "Generative Mitosis Tree",
-      "description": "A binary tree models mitotic bifurcation across 14 generations, with each node storing its generation index, DNA composition, and malignancy state to emulate tumour initiation depth."
+    {
+      "label": "Path Scoring & Feature Encoding",
+      "nodes": [
+        {
+          "id": "levenshtein-drift-scoring",
+          "title": "Levenshtein Drift Scoring",
+          "status": "planned",
+          "description": "Depth-first traversal of the <inode id=\"mitosis-tree\">generative mitosis tree</inode> extracts generational paths and scores mismatch rates via Levenshtein similarity, flagging the highest-drift ancestors that precede malignant nodes.",
+          "path": "analysis.py"
+        },
+        {
+          "id": "kmer-vectors",
+          "title": "k-mer Feature Vectors",
+          "status": "done",
+          "description": "Using k = 4 (from log base 4 of sequence length), each strand is transformed into a 1x1024 nucleotide-frequency vector, yielding 73,475 length-adjusted rows.",
+          "path": "clustering.py"
+        }
+      ],
+      "description": "Turns the <inode id=\"mitosis-tree\">mitosis tree</inode> into quantitative mutation drift scores and <inode id=\"kmer-vectors\">fixed-length feature vectors</inode> for clustering."
     },
-    "levenshtein-drift-scoring": {
-      "status": "planned",
-      "title": "Levenshtein Drift Scoring",
-      "description": "Depth-first traversal of the <inode id=\"mitosis-tree\">generative mitosis tree</inode> extracts generational paths and scores mismatch rates via Levenshtein similarity, flagging the highest-drift ancestors that precede malignant nodes."
-    },
-    "kmer-vectors": {
-      "status": "done",
-      "title": "k-mer Feature Vectors",
-      "description": "Using k = 4 (from log base 4 of sequence length), each strand is transformed into a 1x1024 nucleotide-frequency vector, yielding 73,475 length-adjusted rows."
-    },
-    "1x6-lattice-selection": {
-      "status": "testing",
-      "title": "1x6 Lattice Selection",
-      "description": "SOM grids from 1x2 to 1x11 were compared against the <inode id=\"kmer-vectors\">k-mer frequency vectors</inode>, with correlation analysis reducing redundancy before settling on a 1x6 lattice that reached the best 0.451 silhouette score."
-    },
-    "high-risk-pentamers": {
-      "status": "planned",
-      "title": "Six High-Risk Pentamers",
-      "description": "The winning lattice separated six thymine-heavy pentamer motifs (cagcc, agcca, cccag, ccagg, ttttt, ctttt) that consistently appear in malignant branches."
-    },
-    "pathway-dependent-progression": {
-      "status": "planned",
-      "title": "Pathway-Dependent Progression",
-      "description": "Each of the six clusters carries a distinct nucleotide fingerprint, indicating that mutation progression toward malignancy follows structured pathways rather than random drift."
+    {
+      "label": "SOM Clustering & Motif Discovery",
+      "nodes": [
+        {
+          "id": "1x6-lattice-selection",
+          "title": "1x6 Lattice Selection",
+          "status": "testing",
+          "description": "SOM grids from 1x2 to 1x11 were compared against the <inode id=\"kmer-vectors\">k-mer frequency vectors</inode>, with correlation analysis reducing redundancy before settling on a 1x6 lattice that reached the best 0.451 silhouette score.",
+          "path": "main.py"
+        },
+        {
+          "id": "high-risk-pentamers",
+          "title": "Six High-Risk Pentamers",
+          "status": "planned",
+          "description": "The winning lattice separated six thymine-heavy pentamer motifs (cagcc, agcca, cccag, ccagg, ttttt, ctttt) that consistently appear in malignant branches."
+        },
+        {
+          "id": "pathway-dependent-progression",
+          "title": "Pathway-Dependent Progression",
+          "status": "planned",
+          "description": "Each of the six clusters carries a distinct nucleotide fingerprint, indicating that mutation progression toward malignancy follows structured pathways rather than random drift."
+        }
+      ],
+      "description": "Clusters the <inode id=\"kmer-vectors\">encoded strands</inode> to surface the <inode id=\"high-risk-pentamers\">mutation motifs</inode> that mark the transition toward malignancy."
     }
-  }
+  ]
 }
