@@ -1,3 +1,26 @@
 {
-  "status": "done"
+  "status": "done",
+  "nodes": {
+    "ncbi-strand-curation": {
+      "status": "done"
+    },
+    "mitosis-tree": {
+      "status": "done"
+    },
+    "levenshtein-drift-scoring": {
+      "status": "done"
+    },
+    "kmer-vectors": {
+      "status": "done"
+    },
+    "1x6-lattice-selection": {
+      "status": "done"
+    },
+    "high-risk-pentamers": {
+      "status": "done"
+    },
+    "pathway-dependent-progression": {
+      "status": "done"
+    }
+  }
 }
