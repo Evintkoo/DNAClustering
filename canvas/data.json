@@ -1,26 +1,42 @@
 {
-  "status": "done",
+  "status": "in-progress",
+  "title": "P-53 Mutation GA-SOM Analysis",
+  "description": "Combines genetic algorithms simulating <inode id=\"mitosis-tree\">mitotic propagation</inode> with self-organizing map clustering to identify <inode id=\"high-risk-pentamers\">six pentamer motifs</inode> that consistently precede malignant P-53 mutations.",
   "nodes": {
     "ncbi-strand-curation": {
-      "status": "done"
+      "status": "testing",
+      "title": "NCBI Strand Curation",
+      "description": "25 wild-type and cancerous P-53 DNA strands of 2,509 bases each were pulled from NCBI, stripped of non-nucleotide characters, and aligned into parental/pathological pairs."
     },
     "mitosis-tree": {
-      "status": "done"
+      "status": "done",
+      "title": "Generative Mitosis Tree",
+      "description": "A binary tree models mitotic bifurcation across 14 generations, with each node storing its generation index, DNA composition, and malignancy state to emulate tumour initiation depth."
     },
     "levenshtein-drift-scoring": {
-      "status": "done"
+      "status": "planned",
+      "title": "Levenshtein Drift Scoring",
+      "description": "Depth-first traversal of the <inode id=\"mitosis-tree\">generative mitosis tree</inode> extracts generational paths and scores mismatch rates via Levenshtein similarity, flagging the highest-drift ancestors that precede malignant nodes."
     },
     "kmer-vectors": {
-      "status": "done"
+      "status": "done",
+      "title": "k-mer Feature Vectors",
+      "description": "Using k = 4 (from log base 4 of sequence length), each strand is transformed into a 1x1024 nucleotide-frequency vector, yielding 73,475 length-adjusted rows."
     },
     "1x6-lattice-selection": {
-      "status": "done"
+      "status": "testing",
+      "title": "1x6 Lattice Selection",
+      "description": "SOM grids from 1x2 to 1x11 were compared against the <inode id=\"kmer-vectors\">k-mer frequency vectors</inode>, with correlation analysis reducing redundancy before settling on a 1x6 lattice that reached the best 0.451 silhouette score."
     },
     "high-risk-pentamers": {
-      "status": "done"
+      "status": "planned",
+      "title": "Six High-Risk Pentamers",
+      "description": "The winning lattice separated six thymine-heavy pentamer motifs (cagcc, agcca, cccag, ccagg, ttttt, ctttt) that consistently appear in malignant branches."
     },
     "pathway-dependent-progression": {
-      "status": "done"
+      "status": "planned",
+      "title": "Pathway-Dependent Progression",
+      "description": "Each of the six clusters carries a distinct nucleotide fingerprint, indicating that mutation progression toward malignancy follows structured pathways rather than random drift."
     }
   }
 }
